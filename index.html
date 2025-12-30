@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暖心農情小鋪</title>
+    <style>
+        :root {
+            --brick-red: #a35d5d;
+            --rice-gold: #e8b04d;
+            --paper-white: #fdfcf0;
+            --earth-brown: #5d4037;
+        }
+
+        body {
+            background-color: var(--paper-white);
+            color: var(--earth-brown);
+            font-family: "Microsoft JhengHei", sans-serif;
+            margin: 0;
+            padding-bottom: 120px; /* 留空間給底部的購物籃 */
+        }
+
+        /* 標題區 */
+        .header {
+            background-color: var(--brick-red);
+            color: white;
+            padding: 25px 15px;
+            text-align: center;
+            border-bottom: 4px solid var(--rice-gold);
+        }
+
+        .header h1 { margin: 0; font-size: 1.5rem; }
+
+        /* 商品列表 */
+        .product-list { padding: 15px; }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            border: 1px solid #e0d9c1;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .product-img {
+            width: 90px;
+            background: #f9f7f0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.2rem;
+        }
+
+        .product-info { padding: 12px; flex: 1; position: relative; }
+        .product-title { font-weight: bold; font-size: 1.1rem; }
+        .story-text { font-size: 0.8rem; color: #8d6e63; font-style: italic; margin: 4px 0; }
+        .price { color: var(--brick-red); font-weight: bold; }
+
+        .buy-btn {
+            position: absolute; right: 10px; bottom: 10px;
+            background: var(--rice-gold); color: white; border: none;
+            padding: 6px 12px; border-radius: 8px; font-weight: bold;
+        }
+
+        /* ✨ 重點：修正後的橢圓形購物籃 ✨ */
+        .cart-float-bar {
+            position: fixed;
+            bottom: 30px;
+            left: 5%;
+            width: 90%;
+            height: 55px;
+            background: white;
+            border: 2px solid var(--brick-red);
+            border-radius: 30px; /* 橢圓形關鍵 */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            z-index: 999;
+            cursor: pointer;
+        }
+
+        .cart-icon-text { display: flex; align-items: center; font-weight: bold; }
+        .view-list-text { color: var(--brick-red); font-size: 0.9rem; }
+
+        /* 彈窗遮罩 */
+        #modal-overlay {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>🌾 暖心農情小鋪</h1>
+        <p>「呷飽未？挑選幾樣在地的溫暖吧」</p>
+    </div>
+
+    <div class="product-list">
+        <div class="product-card">
+            <div class="product-img">🍎</div>
+            <div class="product-info">
+                <div class="product-title">紅龜粿</div>
+                <div class="story-text">「阿公說，這顆蘋果聽過高山的風聲。」</div>
+                <div class="price">$250</div>
+                <button class="buy-btn" onclick="add('蜜蘋果', 250)">放入菜籃</button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-img">🍯</div>
+            <div class="product-info">
+                <div class="product-title">龍眼純蜂蜜</div>
+                <div class="story-text">「清晨現採，留住最後一抹花香。」</div>
+                <div class="price">$380</div>
+                <button class="buy-btn" onclick="add('龍眼蜂蜜', 380)">放入菜籃</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="cart-float-bar" onclick="alert('目前清單：\n' + cart.join('\n') + '\n總計：$' + total)">
+        <div class="cart-icon-text">
+            <span style="font-size: 1.5rem; margin-right: 10px;">🛒</span>
+            <span id="cart-count">菜籃還沒有東西喔</span>
+        </div>
+        <div class="view-list-text">查看清單 ></div>
+    </div>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+        function add(name, price) {
+            cart.push(name);
+            total += price;
+            
+            // 更新橢圓形欄位文字
+            document.getElementById('cart-count').innerText = `菜籃已有 ${cart.length} 樣好物`;
+            
+            // 輕微震動效果
+            if (navigator.vibrate) navigator.vibrate(50);
+        }
+    </script>
+</body>
+</html>
